@@ -11,7 +11,7 @@ SD_15 = ImageModel(
     guidance_scale=7,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=30,
-    __negative_prompt=HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT
+    negative_prompt=HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT
 )
 
 # Balanced between speed and quality filtered
@@ -22,7 +22,7 @@ DREAMSHAPER_XL_LIGHTNING = ImageModel(
     guidance_scale=2,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=4,
-    __refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
 # Optimized for quality, slow, unfiltered
@@ -43,7 +43,7 @@ JUGGERNAUTXL_V8_RUNDIFFUSION = ImageModel(
     guidance_scale=7,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=15,
-    __refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
 # Optimized for speed and quality, filtered
@@ -55,8 +55,8 @@ JUGGERNAUTXL_V9_LIGHTNING = ImageModel(
     guidance_scale=2,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=5,
-    __negative_prompt=GENERAL_NEGATIVE_PROMPT,
-    __refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    negative_prompt=GENERAL_NEGATIVE_PROMPT,
+    refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
 # SDXL_TURBO_V1 = ImageModel(
@@ -76,7 +76,7 @@ SDXL_BASE_V1 = ImageModel(
     guidance_scale=2,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=15,
-    __refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
 BEST_OVERALL_MODEL = JUGGERNAUTXL_V9_LIGHTNING

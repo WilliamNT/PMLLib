@@ -16,10 +16,10 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
     __history = Stack[ChatMessage](25, 1)
 
-    def __init__(self, __system_prompt: str = get_system_prompt()) -> None:
+    def __init__(self, _system_prompt: str = get_system_prompt()) -> None:
         self.__history.push(ChatMessage(
             role=ChatRole.SYSTEM,
-            content=__system_prompt
+            content=_system_prompt
         ))
 
     async def generate(self, _input: GenerationInput) -> GenerationOutput:

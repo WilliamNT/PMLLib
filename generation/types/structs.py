@@ -66,15 +66,15 @@ class ImageModel:
             self,
             id: str,
             model: str,
-            __refiner_model: str = "",
+            refiner_model: str = "",
             steps: Optional[int] = 20,
-            __negative_prompt: str = img_constants.GENERAL_NEGATIVE_PROMPT,
+            negative_prompt: str = img_constants.GENERAL_NEGATIVE_PROMPT,
             dimensions: ImageSize = ImageSize(512, 512),
             guidance_scale: int = 5.5,
             sampler: ImageSampler = ImageSampler.EULER_ANCESTRAL,
-            __default_seed: int = -1,
-            __seed_mode: str = "Scale Alike",
-            __refiner_start: float = 0.85
+            default_seed: int = -1,
+            seed_mode: str = "Scale Alike",
+            refiner_start: float = 0.85
     ) -> None:
         self.id = id
         """A unique identifier for the model."""
@@ -82,13 +82,13 @@ class ImageModel:
         self.model = model
         """The model filename."""
 
-        self.refiner_model = __refiner_model
+        self.refiner_model = refiner_model
         """An optional refiner model filename."""
 
         self.steps = steps
         """How many steps the generation should take."""
 
-        self.negative_prompt = __negative_prompt
+        self.negative_prompt = negative_prompt
         """A general negative prompt to let the user define what they don't want to see in the final image."""
 
         self.dimensions = dimensions
@@ -100,13 +100,13 @@ class ImageModel:
         self.sampler = sampler
         """Which sampler to use."""
 
-        self.default_seed = __default_seed
+        self.default_seed = default_seed
         """Lets you predefine a default seed for when the user doesn't explicitly pass one as an argument."""
 
-        self.seed_mode = __seed_mode
+        self.seed_mode = seed_mode
         """Seed mode."""
 
-        self.refiner_start = __refiner_start
+        self.refiner_start = refiner_start
         """If a refiner was specified, at what percentage to start using itit."""
 
     def to_a1_payload(self, prompt: str, __seed: int = __default_seed) -> dict[str, Union[str, int, float]]:
