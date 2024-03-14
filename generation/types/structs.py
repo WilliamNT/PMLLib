@@ -19,17 +19,17 @@ class GenerationOutput(Generic[T]):
     model_name: str
     """Model used to generate this resource."""
 
-    seed: Optional[str] = None
-    """If applicable, the generation seed used to generate this resource."""
-
-    duration: Optional[timedelta] = None
-    """The duration of the generation."""
-
     data: T = field(repr=False)
     """The raw generated resource of type `T`. It's up to the user to parse this data."""
 
     extra: Optional[Dict[str, Union[str, float, int, bool]]] = field(repr=False)
     """Custom additional details about the output."""
+
+    seed: Optional[str] = None
+    """If applicable, the generation seed used to generate this resource."""
+
+    duration: Optional[timedelta] = None
+    """The duration of the generation."""
 
 @dataclass(init=True, repr=True, frozen=True)
 class GenerationInput:
