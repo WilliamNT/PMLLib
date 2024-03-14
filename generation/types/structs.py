@@ -54,7 +54,7 @@ class ImageSize:
     width: int
     height: int
 
-@dataclass(repr=True, frozen=True)
+@dataclass(repr=True)
 class ImageModel:
     """
     Is used to define settings for image generation models.
