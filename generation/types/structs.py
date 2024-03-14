@@ -64,7 +64,7 @@ class ImageModel:
 
     def __init__(
             self,
-            id: str,
+            _id: str,
             model: str,
             refiner_model: str = "",
             steps: Optional[int] = 20,
@@ -76,7 +76,7 @@ class ImageModel:
             seed_mode: str = "Scale Alike",
             refiner_start: float = 0.85
     ) -> None:
-        self.id = id
+        self._id = _id
         """A unique identifier for the model."""
 
         self.model = model
