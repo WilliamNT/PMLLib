@@ -1,5 +1,5 @@
 import aiohttp
-from .constants import GeneratorContract
+from .types.contracts import GeneratorContract
 from .types.structs import GenerationInput, GenerationOutput
 from utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
