@@ -1,6 +1,6 @@
 from typing import List, Optional
-from generation.__types.structs import ImageModel
-from generation.__constants.diffusion_models import MODELS as DIFFUSION_MODELS
+from types.structs import ImageModel
+from constants.diffusion_models import MODELS as DIFFUSION_MODELS
 
 def find_model_by_id(id: str, __fallback: ImageModel, __models: List[ImageModel] = DIFFUSION_MODELS) -> Optional[ImageModel]:
     """

@@ -1,12 +1,12 @@
 from aiohttp import ClientSession
-from generation.__types.contracts import GeneratorContract
-from generation.__types.structs import GenerationInput, GenerationOutput
+from .types.contracts import GeneratorContract
+from .types.structs import GenerationInput, GenerationOutput
 from utils.service import AsyncService
-from generation.__types.exceptions import ServiceBusyException, GenerationAPIException
-from generation.__types.structs import ImageModel
+from .types.exceptions import ServiceBusyException, GenerationAPIException
+from .types.structs import ImageModel
 from generation.helpers.model_helpers import find_model_by_id
-from generation.__constants.diffusion_models import BEST_OVERALL_MODEL
-import generation.__constants.img_constants as constants
+from .constants.diffusion_models import BEST_OVERALL_MODEL
+import constants.img_constants as constants
 from datetime import datetime, UTC
 from typing import Dict, Union
 from io import BytesIO

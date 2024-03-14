@@ -1,7 +1,7 @@
 from typing import List
-from generation.__types.enums import ImageSampler
+from types.enums import ImageSampler
 from . import constants
-from generation.__types.structs import ImageModel, ImageSize
+from types.structs import ImageModel, ImageSize
 
 # Optimized for speed, bad quality, unfiltered
 SD_15 = ImageModel(

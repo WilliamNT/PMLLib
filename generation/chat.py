@@ -1,13 +1,13 @@
 import aiohttp
-from generation.__types.contracts import GeneratorContract
-from generation.__types.structs import GenerationInput, GenerationOutput
+from .constants import GeneratorContract
+from .types.structs import GenerationInput, GenerationOutput
 from utils.service import AsyncService
-from generation.__types.exceptions import ServiceBusyException, GenerationAPIException
+from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
-import generation.__constants.llm_constants as constants
+import constants.llm_constants as constants
 from utils.stack import Stack
-from generation.__types.structs import ChatMessage
-from generation.__types.enums import ChatRole
+from .types.structs import ChatMessage
+from .types.enums import ChatRole
 
 class ChatGenerator(GeneratorContract, AsyncService):
     """

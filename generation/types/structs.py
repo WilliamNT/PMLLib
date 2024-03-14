@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, Union, Dict, Generic, TypeVar
 from datetime import timedelta
-import generation.__constants.img_constants as img_constants
-from generation.__types.enums import ImageSampler, ChatRole
+import constants.img_constants as img_constants
+from .enums import ImageSampler, ChatRole
 
 T = TypeVar("T")
 
