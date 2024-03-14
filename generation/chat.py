@@ -5,7 +5,7 @@ from utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
 from .constants.llm_constants import get_system_prompt, API_BASE, COMPLETION_ENDPOINT
-from utils.stack import Stack
+from ..utils.stack import Stack
 from .types.structs import ChatMessage
 from .types.enums import ChatRole
 
