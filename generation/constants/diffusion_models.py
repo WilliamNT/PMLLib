@@ -1,7 +1,7 @@
 from typing import List
-from types.enums import ImageSampler
+from ..types.enums import ImageSampler
 from .img_constants import HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT, GENERAL_NEGATIVE_PROMPT
-from types.structs import ImageModel, ImageSize
+from ..types.structs import ImageModel, ImageSize
 
 # Optimized for speed, bad quality, unfiltered
 SD_15 = ImageModel(
