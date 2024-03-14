@@ -1,6 +1,6 @@
 from typing import List
 from ..types.enums import ImageSampler
-from .img_constants import HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT, GENERAL__NEGATIVE_PROMPT
+from .img_constants import HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT, GENERAL_NEGATIVE_PROMPT
 from ..types.structs import ImageModel, ImageSize
 
 # Optimized for speed, bad quality, unfiltered
@@ -55,7 +55,7 @@ JUGGERNAUTXL_V9_LIGHTNING = ImageModel(
     guidance_scale=2,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=5,
-    __negative_prompt=GENERAL__NEGATIVE_PROMPT,
+    __negative_prompt=GENERAL_NEGATIVE_PROMPT,
     __refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
