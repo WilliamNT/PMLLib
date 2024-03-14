@@ -19,10 +19,10 @@ class GenerationOutput(Generic[T]):
     model_name: str
     """Model used to generate this resource."""
 
-    seed: Optional[str]
+    seed: Optional[str] = None
     """If applicable, the generation seed used to generate this resource."""
 
-    duration: Optional[timedelta]
+    duration: Optional[timedelta] = None
     """The duration of the generation."""
 
     data: T = field(repr=False)
