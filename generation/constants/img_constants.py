@@ -36,3 +36,5 @@ badly edited, over edited, out of frame, out of focus, amateur quality,
 bad drawing, bad anatomy, unrealistic body breasts, unrealistic butt, distorted,
 disfigured, deformed, ugly, bad face, text, logo,
 """
+
+MAX_SEED_LENGTH = 10
