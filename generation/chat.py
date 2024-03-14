@@ -4,7 +4,7 @@ from .types.structs import GenerationInput, GenerationOutput
 from utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
-import constants.llm_constants as constants
+from .constants.llm_constants import get_system_prompt, API_BASE, COMPLETION_ENDPOINT
 from utils.stack import Stack
 from .types.structs import ChatMessage
 from .types.enums import ChatRole
@@ -16,7 +16,7 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
     __history = Stack[ChatMessage](25, 1)
 
-    def __init__(self, __system_prompt: str = constants.get_system_prompt()) -> None:
+    def __init__(self, __system_prompt: str = get_system_prompt()) -> None:
         self.__history.push(ChatMessage(
             role=ChatRole.SYSTEM,
             content=__system_prompt
@@ -35,7 +35,7 @@ class ChatGenerator(GeneratorContract, AsyncService):
         ))
 
         async with aiohttp.ClientSession() as session:
-            async with session.post(url=constants.API_BASE + constants.COMPLETION_ENDPOINT, json={
+            async with session.post(url=API_BASE + COMPLETION_ENDPOINT, json={
                     "model": "llama2-uncensored",
                     "messages": self.chat_history.to_ollama_payload(),
                     "stream": False,
