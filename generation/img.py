@@ -4,7 +4,7 @@ from .types.structs import GenerationInput, GenerationOutput
 from utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from .types.structs import ImageModel
-from generation.helpers.model_helpers import find_model_by_id
+from .helpers.model_helpers import find_model_by_id
 from .constants.diffusion_models import BEST_OVERALL_MODEL
 from .constants.img_constants import API_BASE, TXT2IMG_ENDPOINT
 from datetime import datetime, UTC
