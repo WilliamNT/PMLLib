@@ -1,7 +1,7 @@
 import aiohttp
 from .types.contracts import GeneratorContract
 from .types.structs import GenerationInput, GenerationOutput
-from utils.service import AsyncService
+from ..utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
 from .constants.llm_constants import get_system_prompt, API_BASE, COMPLETION_ENDPOINT

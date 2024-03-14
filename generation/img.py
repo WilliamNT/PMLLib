@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from .types.contracts import GeneratorContract
 from .types.structs import GenerationInput, GenerationOutput
-from utils.service import AsyncService
+from ..utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from .types.structs import ImageModel
 from .helpers.model_helpers import find_model_by_id
