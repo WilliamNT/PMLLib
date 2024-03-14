@@ -5,8 +5,7 @@ from ..utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
 from .constants.llm_constants import get_system_prompt, API_BASE, COMPLETION_ENDPOINT
-from ..utils.stack import Stack
-from .types.structs import ChatMessage
+from .types.structs import ChatMessage, ChatHistory
 from .types.enums import ChatRole
 
 class ChatGenerator(GeneratorContract, AsyncService):
@@ -14,7 +13,7 @@ class ChatGenerator(GeneratorContract, AsyncService):
     Handles LLM powered chat responses.
     """
 
-    history = Stack[ChatMessage](25, 1)
+    history = ChatHistory()
 
     def __init__(self, _system_prompt: str = get_system_prompt()) -> None:
         self.history.push(ChatMessage(

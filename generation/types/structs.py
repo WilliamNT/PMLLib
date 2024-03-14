@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
-from typing import Optional, Union, Dict, Generic, TypeVar
+from typing import List, Optional, Union, Dict, Generic, TypeVar
 from datetime import timedelta
 from ..constants import img_constants
 from .enums import ImageSampler, ChatRole
+from ...utils.stack import Stack
 
 T = TypeVar("T")
 
@@ -146,3 +147,14 @@ class ChatMessage:
             role=payload["message"]["role"],
             content=payload["message"]["content"].strip()
         )
+    
+class ChatHistory(Stack[ChatMessage]):
+    def __init__(self, _n_size: int = 25, _pop_index: int = 1) -> None:
+        super().__init__(_n_size, _pop_index)
+
+    def to_ollama_payload(self) -> List[Dict[str, str]]:
+        """
+        Returns a list of `ChatMessage` objects serialized to JSON.
+        """
+
+        return [msg.to_json() for msg in self.items]
