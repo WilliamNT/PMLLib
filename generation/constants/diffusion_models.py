@@ -79,6 +79,15 @@ SDXL_BASE_V1 = ImageModel(
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
+SD_CASCADE = ImageModel(
+    _id="sd_cascade",
+    dimensions=ImageSize(768, 1153),
+    model="wurstchen_3.0_stage_c_f32_f16.ckpt",
+    guidance_scale=1,
+    sampler=ImageSampler.DPMPP_SDE_KARRAS,
+    steps=5,
+)
+
 BEST_OVERALL_MODEL = JUGGERNAUTXL_V9_LIGHTNING
 
 MODELS: List[ImageModel] = [
@@ -89,4 +98,5 @@ MODELS: List[ImageModel] = [
     SDXL_BASE_V1,
     # SDXL_TURBO_V1,
     JUGGERNAUTXL_V9_LIGHTNING,
+    SD_CASCADE,
 ]
