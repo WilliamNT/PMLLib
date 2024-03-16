@@ -79,6 +79,8 @@ SDXL_BASE_V1 = ImageModel(
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
 )
 
+# Note: this does not really work at the moment.
+# For support, updates have to be made to the codebase.
 SD_CASCADE = ImageModel(
     _id="sd_cascade",
     dimensions=ImageSize(768, 1153),
@@ -98,5 +100,5 @@ MODELS: List[ImageModel] = [
     SDXL_BASE_V1,
     # SDXL_TURBO_V1,
     JUGGERNAUTXL_V9_LIGHTNING,
-    SD_CASCADE,
+    #SD_CASCADE,
 ]
