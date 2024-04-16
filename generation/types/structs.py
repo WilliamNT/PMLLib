@@ -46,6 +46,9 @@ class GenerationInput:
     seed: Optional[str]
     """If applicable, the generation seed to be used to generate the resource."""
 
+    image: Optional[str] = None
+    """Optional base64 encoded image data that models that support image input can use."""
+
 @dataclass(init=True, repr=True, frozen=True)
 class ImageSize:
     """
@@ -134,11 +137,13 @@ class ImageModel:
 class ChatMessage:
     role: ChatRole
     content: str
+    images: Optional[List[str]] = field(repr=False, default=None)
 
     def to_json(self):
         return {
             "role": self.role,
-            "content": self.content
+            "content": self.content,
+            "images": self.images if self.images else None
         }
     
     @classmethod

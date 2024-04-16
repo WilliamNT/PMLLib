@@ -18,7 +18,8 @@ class ChatGenerator(GeneratorContract, AsyncService):
     def __init__(self, _system_prompt: str = get_system_prompt()) -> None:
         self.history.push(ChatMessage(
             role=ChatRole.SYSTEM,
-            content=_system_prompt
+            content=_system_prompt,
+            images=None,
         ))
 
     async def generate(self, _input: GenerationInput) -> GenerationOutput:
@@ -30,19 +31,22 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
         self.history.push(ChatMessage(
             role=ChatRole.USER,
-            content=_input.prompt
+            content=_input.prompt,
+            images=[_input.image] if _input.image else None,
         ))
 
         async with aiohttp.ClientSession() as session:
             async with session.post(url=API_BASE + COMPLETION_ENDPOINT, json={
-                    "model": "llama2-uncensored",
+                    "model": "llava:7b",
                     "messages": self.history.to_ollama_payload(),
                     "stream": False,
+                    "images": [_input.image] if _input.image else None,
                 }) as generation_req:
                 gen_resp: dict = await generation_req.json()
 
         if "error" in gen_resp.keys():
-            raise GenerationAPIException()
+            self.set_busyness(False)
+            raise GenerationAPIException(gen_resp["error"])
         
         self.history.push(ChatMessage.from_ollama_response(gen_resp))
 
