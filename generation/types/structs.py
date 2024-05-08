@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Union, Dict, Generic, TypeVar
 from datetime import timedelta
+
+from ...generation.constants.llm_constants import get_system_prompt
 from ..constants import img_constants
 from .enums import ImageSampler, ChatRole
 from ...utils.stack import Stack
@@ -163,3 +165,32 @@ class ChatHistory(Stack[ChatMessage]):
         """
 
         return [msg.to_json() for msg in self.items]
+    
+@dataclass(repr=True)
+class ChatModel:
+    """
+    Is used to define settings for LLMs.
+    """
+
+    def __init__(
+            self,
+            _id: str,
+            name: str,
+            is_multimodal: bool = False,
+            system_prompt: str = get_system_prompt(),
+            allows_nsfw: bool = True,
+    ) -> None:
+        self._id = _id
+        """A unique identifier for the model."""
+
+        self.name = name
+        """The model filename."""
+        
+        self.is_multimodal = is_multimodal
+        """Whether the model is multimodal or not. Multimodal models can take image input."""
+
+        self.system_prompt = system_prompt
+        """The default system prompt for the model. Usually meant to be overridden."""
+
+        self.allows_nsfw = allows_nsfw
+        """Whether the model will refuse to generate NSFW content or not."""

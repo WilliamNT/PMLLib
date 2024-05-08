@@ -13,7 +13,6 @@ class GeneratorContract(ABC):
         returns it wrapped in a `GenerationOutput` object.
 
         May raise a `ServiceBusyException` depending on the implemntation.
-        May raise a `ServiceBusyException` depending on the implemntation.
         """
         
         pass

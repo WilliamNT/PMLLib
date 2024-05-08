@@ -1,12 +1,13 @@
 import aiohttp
 from .types.contracts import GeneratorContract
-from .types.structs import GenerationInput, GenerationOutput
+from .types.structs import ChatModel, GenerationInput, GenerationOutput
 from ..utils.service import AsyncService
 from .types.exceptions import ServiceBusyException, GenerationAPIException
 from datetime import datetime, UTC
-from .constants.llm_constants import get_system_prompt, API_BASE, COMPLETION_ENDPOINT
+from .constants.llm_constants import API_BASE, COMPLETION_ENDPOINT
 from .types.structs import ChatMessage, ChatHistory
 from .types.enums import ChatRole
+from .constants.llm_models import BEST_OVERALL_MODEL
 
 class ChatGenerator(GeneratorContract, AsyncService):
     """
@@ -15,10 +16,12 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
     history = ChatHistory()
 
-    def __init__(self, _system_prompt: str = get_system_prompt()) -> None:
+    def __init__(self, model: ChatModel = BEST_OVERALL_MODEL) -> None:
+        self.model = model
+
         self.history.push(ChatMessage(
             role=ChatRole.SYSTEM,
-            content=_system_prompt,
+            content=self.model.system_prompt,
             images=None,
         ))
 
@@ -37,7 +40,7 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
         async with aiohttp.ClientSession() as session:
             async with session.post(url=API_BASE + COMPLETION_ENDPOINT, json={
-                    "model": "llava:7b",
+                    "model": self.model.name, # "llava:7b",
                     "messages": self.history.to_ollama_payload(),
                     "stream": False,
                     "images": [_input.image] if _input.image else None,
