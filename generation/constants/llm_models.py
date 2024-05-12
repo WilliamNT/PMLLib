@@ -29,6 +29,13 @@ LLAMA3_8B_UNCENSORED = ChatModel(
     allows_nsfw=True,
 )
 
+LLAVA3_8B = ChatModel(
+    _id="llava3",
+    name="llava-llama3",
+    is_multimodal=True,
+    allows_nsfw=False,
+)
+
 BEST_OVERALL_MODEL = LLAMA3_8B_UNCENSORED
 
 MODELS: List[ChatModel] = [
@@ -36,4 +43,5 @@ MODELS: List[ChatModel] = [
     LLAMA2_7B,
     LLAMA3_8B,
     LLAMA3_8B_UNCENSORED,
+    LLAVA3_8B,
 ]
