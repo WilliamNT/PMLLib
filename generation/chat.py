@@ -25,6 +25,13 @@ class ChatGenerator(GeneratorContract, AsyncService):
             images=None,
         ))
 
+        # Helps to start the conversation.
+        self.history.push(ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="hi",
+            images=None,
+        ))
+
     async def generate(self, _input: GenerationInput) -> GenerationOutput:
         if await self.get_busyness():
             raise ServiceBusyException()
