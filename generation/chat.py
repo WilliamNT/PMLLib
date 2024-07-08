@@ -99,3 +99,10 @@ class ChatGenerator(GeneratorContract, AsyncService):
         self.history = ChatHistory()
         self.history.push(self.__default_system_prompt_entry)
         self.history.push(self.__default_conversation_starter_entry)
+
+    def append_to_history(self, message: ChatMessage) -> None:
+        """
+        Appends the provided message to the conversation history.
+        """
+
+        self.history.push(message)
