@@ -24,22 +24,22 @@ class ChatGenerator(GeneratorContract, AsyncService):
 
     def __init__(self, custom_history: Optional[ChatHistory], model: ChatModel = BEST_OVERALL_MODEL) -> None:
         self.model = model
+        self.__default_system_prompt_entry = ChatMessage(
+            role=ChatRole.SYSTEM,
+            content=self.model.system_prompt,
+            images=None,
+        )
+        self.__default_conversation_starter_entry = ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="hi",
+            images=None,
+        )
     
         if custom_history:
             self.history = custom_history
         else:
-            self.history.push(ChatMessage(
-                role=ChatRole.SYSTEM,
-                content=self.model.system_prompt,
-                images=None,
-            ))
-
-            # Helps to start the conversation.
-            self.history.push(ChatMessage(
-                role=ChatRole.ASSISTANT,
-                content="hi",
-                images=None,
-            ))
+            self.history.push(self.__default_system_prompt_entry)
+            self.history.push(self.__default_conversation_starter_entry)
 
     async def generate(self, _input: GenerationInput) -> GenerationOutput:
         if await self.get_busyness():
@@ -79,3 +79,23 @@ class ChatGenerator(GeneratorContract, AsyncService):
             data=self.history.get_last().content,
             extra=gen_resp
         )
+    
+    def replace_history(self, history: ChatHistory) -> None:
+        """
+        Overrides the current history object with a new one.
+
+        Please note that this replaces the current history object but
+        doesn't inject a system prompt.
+        """
+
+        self.history = history
+
+    def reset_history(self) -> None:
+        """
+        Resets the conversation history (makes the LLM forget everything) so the LLM behaves
+        just like it would when starting a new conversation.
+        """
+
+        self.history = ChatHistory()
+        self.history.push(self.__default_system_prompt_entry)
+        self.history.push(self.__default_conversation_starter_entry)
