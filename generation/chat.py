@@ -106,3 +106,87 @@ class ChatGenerator(GeneratorContract, AsyncService):
         """
 
         self.history.push(message)
+
+    async def summarize_history(self, history: Optional[ChatHistory]) -> str:
+        """
+        Returns an LLM generated summary of the conversation history.
+        If no history is provided, it will use the current history object.
+        """
+
+        history = history if history else self.history
+        history_as_string = "\n".join([message.content for message in history.messages])
+
+        self.set_busyness(True)
+        prompt = f"""
+        You are a language model that has been trained on a large corpus of text data.
+        Your task is to objectively summarize the conversation.
+        You should include a short description about the relationship between Marla and each other person.
+        Be as verbose as you need to be, but do not include any information that is not present in the conversation history.
+        
+        This is the conversation:
+        {history_as_string}
+        """
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url=API_BASE + "/api/generate", json={
+                    "model": self.model.name, # "llava:7b",
+                    "prompt": prompt,
+                    "stream": False,
+                }) as generation_req:
+                    gen_resp: dict = await generation_req.json()
+
+        if "error" in gen_resp.keys():
+            self.set_busyness(False)
+            raise GenerationAPIException(gen_resp["error"])
+        
+        self.set_busyness(False)
+
+    async def summarize_history(self, history: Optional[ChatHistory], assistant_name: Optional[str] = "Assistant") -> str:
+        """
+        Returns an LLM generated summary of the conversation history.
+        If no history is provided, it will use the current history object.
+        """
+
+        if await self.get_busyness():
+            raise ServiceBusyException()
+        
+        self.set_busyness(True)
+        start_stamp = datetime.now(UTC)
+
+        history = history if history else self.history
+        history_as_string = "\n".join([message.content for message in history.items])
+
+        prompt = f"""
+        You are a language model that has been trained on a large corpus of text data.
+        You should write a short and consise description about the relationship between {assistant_name} and each other person.
+        You are instructing an actor who is playing the role of {assistant_name}.
+        Wording should be present simple.
+        Follow the style of this example: "You are {assistant_name}... You have these experiences with these people:"
+        Only include details about the conversation and its themes and subjects.
+
+        This is the conversation:
+        {history_as_string}
+        """
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url=API_BASE + "/api/generate", json={
+                    "model": self.model.name, # "llava:7b",
+                    "prompt": prompt,
+                    "stream": False,
+                }) as generation_req:
+                    gen_resp: dict = await generation_req.json()
+
+        if "error" in gen_resp.keys():
+            self.set_busyness(False)
+            raise GenerationAPIException(gen_resp["error"])
+
+        self.set_busyness(False)
+        end_stamp = datetime.now(UTC)
+        
+        return GenerationOutput[str](
+            prompt=prompt,
+            model_name=self.model.name,
+            duration=(end_stamp - start_stamp),
+            data=str(gen_resp["response"]),
+            extra=gen_resp
+        )
