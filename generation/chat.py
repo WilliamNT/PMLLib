@@ -1,3 +1,4 @@
+from typing import Optional
 import aiohttp
 from .types.contracts import GeneratorContract
 from .types.structs import ChatModel, GenerationInput, GenerationOutput
@@ -12,25 +13,33 @@ from .constants.llm_models import BEST_OVERALL_MODEL
 class ChatGenerator(GeneratorContract, AsyncService):
     """
     Handles LLM powered chat responses.
+
+    By default, it is configured to use sensible defaults.
+    However, you have the option to provide a custom history object and/or model to use.
+    This is useful for maintaining a conversation across multiple requests or using a specific model.
+    Otherwise, it will use the best overall model and start a new conversation.
     """
 
     history = ChatHistory()
 
-    def __init__(self, model: ChatModel = BEST_OVERALL_MODEL) -> None:
+    def __init__(self, custom_history: Optional[ChatHistory], model: ChatModel = BEST_OVERALL_MODEL) -> None:
         self.model = model
+    
+        if custom_history:
+            self.history = custom_history
+        else:
+            self.history.push(ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=self.model.system_prompt,
+                images=None,
+            ))
 
-        self.history.push(ChatMessage(
-            role=ChatRole.SYSTEM,
-            content=self.model.system_prompt,
-            images=None,
-        ))
-
-        # Helps to start the conversation.
-        self.history.push(ChatMessage(
-            role=ChatRole.ASSISTANT,
-            content="hi",
-            images=None,
-        ))
+            # Helps to start the conversation.
+            self.history.push(ChatMessage(
+                role=ChatRole.ASSISTANT,
+                content="hi",
+                images=None,
+            ))
 
     async def generate(self, _input: GenerationInput) -> GenerationOutput:
         if await self.get_busyness():
