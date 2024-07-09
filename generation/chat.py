@@ -126,7 +126,7 @@ class ChatGenerator(GeneratorContract, AsyncService):
         You are a language model that has been trained on a large corpus of text data.
         You should write a short and consise description about the relationship between {assistant_name} and each other person.
         You are instructing an actor who is playing the role of {assistant_name}.
-        Wording should be present simple.
+
         Follow the style of this example: "You are {assistant_name}... You have these experiences with these people:"
         Only include details about the conversation and its themes and subjects.
 
