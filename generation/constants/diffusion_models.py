@@ -3,7 +3,6 @@ from ..types.enums import ImageSampler
 from .img_constants import HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT, GENERAL_NEGATIVE_PROMPT
 from ..types.structs import ImageModel, ImageSize
 
-# Optimized for speed, bad quality, unfiltered
 SD_15 = ImageModel(
     _id="sd15",
     dimensions=ImageSize(512, 512),
@@ -11,10 +10,10 @@ SD_15 = ImageModel(
     guidance_scale=7,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=30,
-    negative_prompt=HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT
+    negative_prompt=HIGHLY_RESTRICTIVE_NEGATIVE_PROMPT,
+    user_description="Optimized for speed, bad quality, unfiltered",
 )
 
-# Balanced between speed and quality filtered
 DREAMSHAPER_XL_LIGHTNING = ImageModel(
     _id="dreamxl_lightning",
     dimensions=ImageSize(640, 640),
@@ -23,9 +22,9 @@ DREAMSHAPER_XL_LIGHTNING = ImageModel(
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=4,
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    user_description="Balanced between speed and quality filtered",
 )
 
-# Optimized for quality, slow, unfiltered
 AAM_XL_ANIMEMIX_V10 = ImageModel(
     _id="animexl",
     dimensions=ImageSize(768, 768),
@@ -33,9 +32,9 @@ AAM_XL_ANIMEMIX_V10 = ImageModel(
     guidance_scale=2,
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=20,
+    user_description="Optimized for quality, slow, unfiltered"
 )
 
-# Optimized for speed and quality, filtered
 JUGGERNAUTXL_V8_RUNDIFFUSION = ImageModel(
     _id="jv8r",
     dimensions=ImageSize(768, 768),
@@ -44,9 +43,9 @@ JUGGERNAUTXL_V8_RUNDIFFUSION = ImageModel(
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=15,
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    user_description="Optimized for speed and quality, filtered",
 )
 
-# Optimized for speed and quality, filtered
 # Configuration based on recommended values by model author
 JUGGERNAUTXL_V9_LIGHTNING = ImageModel(
     _id="jv9l",
@@ -57,6 +56,7 @@ JUGGERNAUTXL_V9_LIGHTNING = ImageModel(
     steps=5,
     negative_prompt=GENERAL_NEGATIVE_PROMPT,
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    user_description="Optimized for speed and quality, filtered",
 )
 
 # SDXL_TURBO_V1 = ImageModel(
@@ -68,7 +68,6 @@ JUGGERNAUTXL_V9_LIGHTNING = ImageModel(
 #     steps=10,
 # )
 
-# Optimized for really high quality, filtered
 SDXL_BASE_V1 = ImageModel(
     _id="sdxlv1_base",
     dimensions=ImageSize(1024, 1024),
@@ -77,6 +76,7 @@ SDXL_BASE_V1 = ImageModel(
     sampler=ImageSampler.DPMPP_SDE_KARRAS,
     steps=15,
     refiner_model="sd_xl_refiner_1.0_f16.ckpt",
+    user_description="Optimized for really high quality, filtered",
 )
 
 # Note: this does not really work at the moment.
@@ -90,6 +90,17 @@ SD_CASCADE = ImageModel(
     steps=5,
 )
 
+# Note: this needs work to be usable.
+FLUX1_SCHNELL = ImageModel(
+    _id="flux1_schnell",
+    dimensions=ImageSize(768, 1024),
+    model="flux_1_schnell_q8p.ckpt",
+    guidance_scale=1,
+    sampler=ImageSampler.EULER_ANCESTRAL,
+    steps=10,
+    user_description="A good general purpose model, with basically no censorship and great text generation",
+)
+
 BEST_OVERALL_MODEL = JUGGERNAUTXL_V9_LIGHTNING
 
 MODELS: List[ImageModel] = [
@@ -101,4 +112,5 @@ MODELS: List[ImageModel] = [
     # SDXL_TURBO_V1,
     JUGGERNAUTXL_V9_LIGHTNING,
     #SD_CASCADE,
+    # FLUX1_SCHNELL,
 ]

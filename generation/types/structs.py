@@ -80,7 +80,8 @@ class ImageModel:
             sampler: ImageSampler = ImageSampler.EULER_ANCESTRAL,
             default_seed: int = -1,
             seed_mode: str = "Scale Alike",
-            refiner_start: float = 0.85
+            refiner_start: float = 0.85,
+            user_description: str = "This model is a general-purpose image generation model.",
     ) -> None:
         self._id = _id
         """A unique identifier for the model."""
@@ -114,6 +115,9 @@ class ImageModel:
 
         self.refiner_start = refiner_start
         """If a refiner was specified, at what percentage to start using itit."""
+
+        self.user_description = user_description
+        """A user-friendly description of the model."""
 
     def to_a1_payload(self, prompt: str, __seed: int = __default_seed) -> dict[str, Union[str, int, float]]:
         """
